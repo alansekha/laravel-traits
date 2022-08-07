@@ -3,24 +3,18 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Complaint;
-use Illuminate\Support\Str;
+use App\Traits\UploadFile;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Storage;
 
 class ComplaintController extends Controller
 {
+    use UploadFile;
+    
     public function store(Request $request)
     {
         if($request->hasFile('file')){
-            $file = $request->file('file');
-            $extension = $file->getClientOriginalExtension();
-
-            // Generate random file name
-            $random_file_name = Str::uuid()->toString();
-            $fileName = 'img/' . $random_file_name .'.'.$extension;
-
-            Storage::disk('local')->put($fileName, $file);
+            $fileName = $this->uploadFile($request->file('file'));
         }
 
         $complaint = Complaint::create([

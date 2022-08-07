@@ -2,17 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Traits\BelongsToUser;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Ticket extends Model
 {
-    use HasFactory;
+    use HasFactory, BelongsToUser;
 
     protected $guarded = [];
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
 }
